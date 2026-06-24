@@ -12,7 +12,9 @@ from aiogram.types import (
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 
-BOT_TOKEN = "8936967784:AAGN6zqBLcbcazP89e4RClwJuLVy6nLCstM"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise ValueError("Переменная окружения BOT_TOKEN не установлена!")
 
 COUNTRY_FLAGS = {
     "France": "🇫🇷",
