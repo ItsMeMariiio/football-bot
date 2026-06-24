@@ -1,4 +1,6 @@
 import sqlite3
+from aiohttp import web
+import logging
 import random
 import asyncio
 import os
@@ -11,6 +13,10 @@ from aiogram.types import (
 )
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",  # (опціонально: додає час у логи)
+)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
@@ -1301,7 +1307,15 @@ async def handle_guess(message: Message):
 
 
 async def main():
-    print("🤖 Бот запущен (Режимы: Соло и Кооп)")
+    app = web.Application()
+    app.router.add_get("/", lambda request: web.Response(text="Bot is running!"))
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", int(os.environ.get("PORT", 8080)))
+    await site.start()
+    # ---------------------------
+
+    logging.info("🤖 Бот запущен (Режимы: Соло и Кооп)")
     await dp.start_polling(bot)
 
 
