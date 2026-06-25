@@ -1109,7 +1109,7 @@ async def cmd_join(message: Message):
 
 async def send_turn(chat_id: int, game: Game):
     text = (
-        f"🏟 *{game.task['subtitle']}* | {game.task['ru_answer'] if game.revealed_count == len(game.task['hints']) else '...'}\n\n"
+        f"🏟 *{game.task['subtitle']}* | ...\n\n"
         f"{game.get_current_hints_text()}\n\n"
         f"Твой ответ 👇"
     )
